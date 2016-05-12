@@ -654,6 +654,7 @@ extern "C" {
 #endif
 
 #ifndef GRAPHENE_SIMD_BENCHMARK
+# ifndef _MSC_VER
 _______EOF
 
         if test "x$graphene_has_sse2" = xyes; then
@@ -673,6 +674,12 @@ _______EOF
         fi
 
         cat >> $outfile <<_______EOF
+# else
+#  define GRAPHENE_HAS_SSE 1
+#  if !defined (_M_X64) && !defined (_M_AMD64) && (_MSC_VER < 1800)
+#   define GRAPHENE_USE_INDIRECT_M128 1
+#  endif
+# endif
 # define GRAPHENE_HAS_SCALAR 1
 #endif /* GRAPHENE_SIMD_BENCHMARK */
 
@@ -701,6 +708,8 @@ _______EOF
 #    define GRAPHENE_USE_SSE4_1
 #   endif
 #  elif defined(__SSE4_1__)
+#   define GRAPHENE_USE_SSE4_1
+#  elif defined(_MSC_VER)
 #   define GRAPHENE_USE_SSE4_1
 #  endif
 #  if defined(GRAPHENE_USE_SSE4_1)
@@ -769,6 +778,7 @@ AC_CONFIG_FILES([
   src/graphene-version.h
 
   doc/Makefile
+  win32/Makefile
 ])
 
 AC_OUTPUT

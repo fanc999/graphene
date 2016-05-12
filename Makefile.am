@@ -11,7 +11,7 @@ EXTRA_DIST = \
 	build/solaris-hwcap.mapfile \
 	build/identfilter.py
 
-SUBDIRS = src doc
+SUBDIRS = src doc win32
 
 AM_DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-introspection
 
